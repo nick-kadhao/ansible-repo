@@ -1,0 +1,30 @@
+---
+
+- hosts: all
+  become: True
+  tasks:
+    - name: Install apache server
+      apt:
+        name: httpd
+        state: present
+
+    - name: Enable apache on reboot
+      service:
+        name: httpd
+        enabled: True
+
+    - name: Install git
+      apt:
+        name: git
+        state: present
+
+    - name: Deploy website from git
+      git:
+        repo: https://github.com/nick-kadhao/nick-17.git
+        dest: /var/www/html/
+    - name: restart apache
+      service:
+        name: httpd
+        state: restarted
+
+...
